@@ -27,6 +27,10 @@
             android:launchMode="singleInstance"/>
         <activity android:name=".profile.AccountSettingsActivity"
             android:launchMode="singleInstance"/>
+        <activity android:name=".login.LoginActivity"
+            android:launchMode="singleInstance"/>
+        <activity android:name=".login.RegisterActivity"
+            android:launchMode="singleInstance"/>
     </application>
 
 </manifest>
