@@ -52,12 +52,13 @@ dependencies {
     //compile 'com.github.eschao:android-ElasticListView:v1.0'
 
 
-    /*//material dialogs
+    //material dialogs
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.4.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
-    implementation files('libs/aspectjrt-1.7.3 (1).jar')*/
+    //annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+    //implementation files('libs/aspectjrt-1.7.3 (1).jar')
+
     //Universal image loader
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     //firebase authentication
