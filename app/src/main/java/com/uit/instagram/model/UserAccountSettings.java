@@ -17,10 +17,11 @@ public class UserAccountSettings {
     private String username;
     private String website;
     private String user_id;
+    private String phone_number;
 
     public UserAccountSettings(String description, String display_name, long followers,
                                long following, long posts, String profile_photo, String username,
-                               String website, String user_id) {
+                               String website, String user_id, String phone_number) {
         this.description = description;
         this.display_name = display_name;
         this.followers = followers;
@@ -30,6 +31,7 @@ public class UserAccountSettings {
         this.username = username;
         this.website = website;
         this.user_id = user_id;
+        this.phone_number = phone_number;
     }
 
     public UserAccountSettings() {
@@ -108,6 +110,14 @@ public class UserAccountSettings {
         this.user_id = user_id;
     }
 
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
     @Override
     public String toString() {
         return "UserAccountSettings{" +
@@ -119,6 +129,8 @@ public class UserAccountSettings {
                 ", profile_photo='" + profile_photo + '\'' +
                 ", username='" + username + '\'' +
                 ", website='" + website + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", phone_number='" + phone_number + '\'' +
                 '}';
     }
 }

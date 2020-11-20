@@ -94,7 +94,7 @@ public class FirebaseMethods {
      */
     public void addNewUser(String email, String username, String description, String website, String profile_photo){
 
-        User user = new User( userID,  1,  email,  StringManipulation.condenseUsername(username) );
+        User user = new User( userID,  email,  StringManipulation.condenseUsername(username));
 
         myRef.child(mContext.getString(R.string.dbname_users))
                 .child(userID)
@@ -110,7 +110,8 @@ public class FirebaseMethods {
                 profile_photo,
                 StringManipulation.condenseUsername(username),
                 website,
-                userID
+                userID,
+                ""
         );
 
         myRef.child(mContext.getString(R.string.dbname_user_account_settings))
@@ -199,6 +200,11 @@ public class FirebaseMethods {
                                     .getValue(UserAccountSettings.class)
                                     .getFollowers()
                     );
+                    settings.setPhone_number(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getPhone_number()
+                    );
 
                     Log.d(TAG, "getUserAccountSettings: retrieved user_account_settings information: " + settings.toString());
                 } catch (NullPointerException e) {
@@ -222,11 +228,6 @@ public class FirebaseMethods {
                                 .getValue(User.class)
                                 .getEmail()
                 );
-                user.setPhone_number(
-                        ds.child(userID)
-                                .getValue(User.class)
-                                .getPhone_number()
-                );
                 user.setUser_id(
                         ds.child(userID)
                                 .getValue(User.class)
@@ -240,4 +241,59 @@ public class FirebaseMethods {
 
     }
 
+    public void updateUsername(String username) {
+        Log.d(TAG, "updateUsername: upadting username to: " + username);
+
+        myRef.child(mContext.getString(R.string.dbname_users))
+                .child(userID)
+                .child(mContext.getString(R.string.field_username))
+                .setValue(username);
+
+        myRef.child(mContext.getString(R.string.dbname_user_account_settings))
+                .child(userID)
+                .child(mContext.getString(R.string.field_username))
+                .setValue(username);
+    }
+
+    /**
+     * Update 'user_account_settings' node for the current user
+     *
+     * @param displayName
+     * @param website
+     * @param description
+     * @param phoneNumber
+     */
+    public void updateUserAccountSettings(String displayName, String website, String description, String phoneNumber) {
+
+        Log.d(TAG, "updateUserAccountSettings: updating user account settings.");
+
+        if (displayName != null) {
+            myRef.child(mContext.getString(R.string.dbname_user_account_settings))
+                    .child(userID)
+                    .child(mContext.getString(R.string.field_display_name))
+                    .setValue(displayName);
+        }
+
+
+        if (website != null) {
+            myRef.child(mContext.getString(R.string.dbname_user_account_settings))
+                    .child(userID)
+                    .child(mContext.getString(R.string.field_website))
+                    .setValue(website);
+        }
+
+        if (description != null) {
+            myRef.child(mContext.getString(R.string.dbname_user_account_settings))
+                    .child(userID)
+                    .child(mContext.getString(R.string.field_description))
+                    .setValue(description);
+        }
+
+        if (phoneNumber != null) {
+            myRef.child(mContext.getString(R.string.dbname_user_account_settings))
+                    .child(userID)
+                    .child(mContext.getString(R.string.field_phone_number))
+                    .setValue(phoneNumber);
+        }
+    }
 }

@@ -34,7 +34,17 @@
                     android:textColor="@color/black"
                     android:id="@+id/profileName"/>
 
-
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/saveChanges"
+                    android:textSize="20sp"
+                    android:textColor="@color/link_blue"
+                    android:text="Done"
+                    android:layout_alignParentRight="true"/>
             </RelativeLayout>
 
 
