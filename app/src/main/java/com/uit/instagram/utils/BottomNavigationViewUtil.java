@@ -3,6 +3,7 @@ package com.uit.instagram.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.uit.instagram.share.ShareActivity;
  */
 public class BottomNavigationViewUtil {
 
+    private static final String TAG = "BottomNavigationView";
 
     public static void enableNavigation(final Context context, BottomNavigationView view){
         view.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -4,6 +4,7 @@
     <!-- fragment names -->
     <string name="edit_profile_fragment">Edit Profile</string>
     <string name="sign_out_fragment">Sign Out</string>
+    <string name="profile_fragment">Profile</string>
 
     <!-- Firebase messages -->
     <string name="auth_failed">Failed to Login</string>
@@ -20,4 +21,11 @@
     <string name="field_description">description</string>
     <string name="field_phone_number">phone_number</string>
     <string name="field_user_id">user_id</string>
+
+    <!-- Intent Extras -->
+    <string name="calling_activity">calling_activity</string>
+
+    <!-- activity names -->
+    <string name="profile_activity">Profile Activity</string>
+
 </resources>

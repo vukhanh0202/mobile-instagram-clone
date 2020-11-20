@@ -8,14 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/layout_center_profile"/>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/container">
 
         </FrameLayout>
-        <include layout="@layout/layout_bottom_navigation_view" />
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
