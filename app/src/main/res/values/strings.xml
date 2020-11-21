@@ -33,6 +33,10 @@
     <string name="calling_activity">calling_activity</string>
     <string name="selected_image">selected_image</string>
     <string name="selected_bitmap">selected_bitmap</string>
+    <string name="return_to_fragment">return_to_fragment</string>
+    <string name="intent_user">intent_user</string>
+    <string name="user_stories">user_stories</string>
+    <string name="calling_editPhotoprofile">calling_editPhotoprofile</string>
 
     <!-- activity names -->
     <string name="profile_activity">Profile Activity</string>

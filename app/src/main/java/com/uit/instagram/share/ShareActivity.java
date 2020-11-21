@@ -4,17 +4,13 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.uit.instagram.R;
-import com.uit.instagram.utils.BottomNavigationViewUtil;
 import com.uit.instagram.utils.Permissions;
 import com.uit.instagram.utils.SectionsPagerAdapter;
 
@@ -46,7 +42,6 @@ public class ShareActivity extends AppCompatActivity {
         }else{
             verifyPermissions(Permissions.PERMISSIONS);
         }
-        //setupBottomNavigationView();
     }
 
     /**
@@ -68,10 +63,14 @@ public class ShareActivity extends AppCompatActivity {
 
     }
 
-    public int getTask(){
-        Log.d(TAG, "getTask: TASK: " + getIntent().getFlags());
-        return getIntent().getFlags();
-    }
+    public boolean getTask(){
+        boolean flag = true;
+        if(getIntent().hasExtra(getString(R.string.calling_editPhotoprofile))){
+            flag = false;
+        }
+        Log.d(TAG, "getTask: Edit photo profile" + flag);
+        return flag;
+}
     /**
      * return the current tab number
      * 0 = GalleryFragment
@@ -133,16 +132,4 @@ public class ShareActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Bottom navigationView setup
-     */
-    private void setupBottomNavigationView(){
-        Log.d(TAG, "setupBottomNavigationView: setting up bottom navigationView");
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavViewBar);
-        BottomNavigationViewUtil.enableNavigation(mContext, bottomNavigationView);
-
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
-        menuItem.setChecked(true);
-    }
 }

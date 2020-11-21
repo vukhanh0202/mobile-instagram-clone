@@ -28,6 +28,7 @@ import com.uit.instagram.R;
 import com.uit.instagram.model.User;
 import com.uit.instagram.model.UserAccountSettings;
 import com.uit.instagram.model.UserSettings;
+import com.uit.instagram.share.ShareActivity;
 import com.uit.instagram.utils.FirebaseMethods;
 import com.uit.instagram.utils.UniversalImageLoader;
 
@@ -114,25 +115,6 @@ public class EditProfileFragment extends Fragment {
         final String description = mDescription.getText().toString();
         final String phoneNumber = mPhoneNumber.getText().toString();
 
-
-        //case1: if the user made a change to their username
-
-        //case2: if the user made a change to their email
-        /*if(!mUserSettings.getUser().getEmail().equals(email)){
-
-            // step1) Reauthenticate
-            //          -Confirm the password and email
-            ConfirmPasswordDialog dialog = new ConfirmPasswordDialog();
-            dialog.show(getFragmentManager(), getString(R.string.confirm_password_dialog));
-            dialog.setTargetFragment(EditProfileFragment.this, 1);
-
-
-            // step2) check if the email already is registered
-            //          -'fetchProvidersForEmail(String email)'
-            // step3) change the email
-            //          -submit the new email to the database and authentication
-        }*/
-
         /**
          * change the rest of the settings that do not require uniqueness
          */
@@ -179,16 +161,16 @@ public class EditProfileFragment extends Fragment {
         mEmail.setText(userSettings.getUser().getEmail());
         mPhoneNumber.setText(settings.getPhone_number());
 
-      /*  mChangeProfilePhoto.setOnClickListener(new View.OnClickListener() {
+        mChangeProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: changing profile photo");
                 Intent intent = new Intent(getActivity(), ShareActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //268435456
+                intent.putExtra(getString(R.string.calling_editPhotoprofile), getString(R.string.profile_activity));
                 getActivity().startActivity(intent);
                 getActivity().finish();
             }
-        });*/
+        });
     }
 
     /**

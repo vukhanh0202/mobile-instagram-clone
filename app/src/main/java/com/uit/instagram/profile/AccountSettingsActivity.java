@@ -2,6 +2,7 @@ package com.uit.instagram.profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.uit.instagram.R;
 import com.uit.instagram.utils.BottomNavigationViewUtil;
+import com.uit.instagram.utils.FirebaseMethods;
 import com.uit.instagram.utils.SectionsStatePagerAdapter;
 
 import java.util.ArrayList;
@@ -69,6 +71,30 @@ public class AccountSettingsActivity extends AppCompatActivity {
     private void getIncomingIntent() {
 
         Intent intent = getIntent();
+
+        if(intent.hasExtra(getString(R.string.selected_image))
+                || intent.hasExtra(getString(R.string.selected_bitmap))){
+
+            //if there is an imageUrl attached as an extra, then it was chosen from the gallery/photo fragment
+            Log.d(TAG, "getIncomingIntent: New incoming imgUrl");
+            if(intent.getStringExtra(getString(R.string.return_to_fragment)).equals(getString(R.string.edit_profile_fragment))){
+
+                if(intent.hasExtra(getString(R.string.selected_image))){
+                    //set the new profile picture
+                    FirebaseMethods firebaseMethods = new FirebaseMethods(AccountSettingsActivity.this);
+                    firebaseMethods.uploadNewPhoto(getString(R.string.profile_photo), null, 0,
+                            intent.getStringExtra(getString(R.string.selected_image)), null);
+                }
+                else if(intent.hasExtra(getString(R.string.selected_bitmap))){
+                    //set the new profile picture
+                    FirebaseMethods firebaseMethods = new FirebaseMethods(AccountSettingsActivity.this);
+                    firebaseMethods.uploadNewPhoto(getString(R.string.profile_photo), null, 0,
+                            null,(Bitmap) intent.getParcelableExtra(getString(R.string.selected_bitmap)));
+                }
+
+            }
+
+        }
 
         if(intent.hasExtra(getString(R.string.calling_activity))){
             Log.d(TAG, "getIncomingIntent: received incoming intent from " + getString(R.string.profile_activity));
