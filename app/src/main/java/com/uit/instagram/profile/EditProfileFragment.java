@@ -82,7 +82,7 @@ public class EditProfileFragment extends Fragment {
         setupFirebaseAuth();
 
         // set up back arrow
-        ImageView backArrow = (ImageView)view.findViewById(R.id.backArrow);
+        ImageView backArrow = (ImageView) view.findViewById(R.id.backArrow);
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +107,7 @@ public class EditProfileFragment extends Fragment {
      * Retrieves the data contained in the widgets and submits it to the database
      * Before donig so it chekcs to make sure the username chosen is unqiue
      */
-    private void saveProfileSettings(){
+    private void saveProfileSettings() {
         final String displayName = mDisplayName.getText().toString();
         final String username = mUsername.getText().toString();
         final String website = mWebsite.getText().toString();
@@ -116,9 +116,7 @@ public class EditProfileFragment extends Fragment {
 
 
         //case1: if the user made a change to their username
-        if(!mUserSettings.getUser().getUsername().equals(username)){
-            checkIfUsernameExists(username);
-        }
+
         //case2: if the user made a change to their email
         /*if(!mUserSettings.getUser().getEmail().equals(email)){
 
@@ -138,29 +136,38 @@ public class EditProfileFragment extends Fragment {
         /**
          * change the rest of the settings that do not require uniqueness
          */
-        if(!mUserSettings.getSettings().getDisplay_name().equals(displayName)){
+        if (!mUserSettings.getSettings().getDisplay_name().equals(displayName)) {
             //update displayname
             mFirebaseMethods.updateUserAccountSettings(displayName, null, null, null);
         }
-        if(!mUserSettings.getSettings().getWebsite().equals(website)){
+        if (!mUserSettings.getSettings().getWebsite().equals(website)) {
             //update website
             mFirebaseMethods.updateUserAccountSettings(null, website, null, null);
         }
-        if(!mUserSettings.getSettings().getDescription().equals(description)){
+        if (!mUserSettings.getSettings().getDescription().equals(description)) {
             //update description
             mFirebaseMethods.updateUserAccountSettings(null, null, description, null);
         }
-        if(!mUserSettings.getSettings().getPhone_number().equals(phoneNumber)){
+        if (!mUserSettings.getSettings().getPhone_number().equals(phoneNumber)) {
             //update phoneNumber
             mFirebaseMethods.updateUserAccountSettings(null, null, null, phoneNumber);
         }
+        boolean flag = true;
+        if (!mUserSettings.getUser().getUsername().equals(username)) {
+            flag = checkIfUsernameExists(username);
+        }
+        if (flag == true) {
+            Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+        }
+        getActivity().finish();
     }
 
-    private void initImageLoader(){
+    private void initImageLoader() {
         UniversalImageLoader universalImageLoader = new UniversalImageLoader(getActivity());
         ImageLoader.getInstance().init(universalImageLoader.getConfig());
     }
-    private void setProfileWidgets(UserSettings userSettings){
+
+    private void setProfileWidgets(UserSettings userSettings) {
         mUserSettings = userSettings;
         //User user = userSettings.getUser();
         UserAccountSettings settings = userSettings.getSettings();
@@ -186,11 +193,13 @@ public class EditProfileFragment extends Fragment {
 
     /**
      * Check is @param username already exists in teh database
+     *
      * @param username
      */
-    private void checkIfUsernameExists(final String username) {
+    private boolean checkIfUsernameExists(final String username) {
         Log.d(TAG, "checkIfUsernameExists: Checking if  " + username + " already exists.");
-
+        final boolean[] flag = new boolean[1];
+        flag[0] = false;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference
                 .child(getString(R.string.dbname_users))
@@ -199,17 +208,16 @@ public class EditProfileFragment extends Fragment {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                if(!dataSnapshot.exists()){
+                if (!dataSnapshot.exists()) {
                     //add the username
                     mFirebaseMethods.updateUsername(username);
-                    Toast.makeText(getActivity(), "saved username.", Toast.LENGTH_SHORT).show();
-
+                    flag[0] = true;
                 }
-                for(DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
-                    if (singleSnapshot.exists()){
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    if (singleSnapshot.exists()) {
                         Log.d(TAG, "checkIfUsernameExists: FOUND A MATCH: " + singleSnapshot.getValue(User.class).getUsername());
                         Toast.makeText(getActivity(), "That username already exists.", Toast.LENGTH_SHORT).show();
+                        flag[0] = false;
                     }
                 }
             }
@@ -219,6 +227,7 @@ public class EditProfileFragment extends Fragment {
 
             }
         });
+        return flag[0];
     }
 
 
@@ -229,7 +238,7 @@ public class EditProfileFragment extends Fragment {
     /**
      * Setup the firebase auth object
      */
-    private void setupFirebaseAuth(){
+    private void setupFirebaseAuth() {
         Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
 
         mAuth = FirebaseAuth.getInstance();
