@@ -82,10 +82,10 @@ public class NextActivity extends AppCompatActivity {
                     imgUrl = intent.getStringExtra(getString(R.string.selected_image));
                     mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), caption, imageCount, imgUrl,null);
                 }
-              /*  else if(intent.hasExtra(getString(R.string.selected_bitmap))){
+                else if(intent.hasExtra(getString(R.string.selected_bitmap))){
                     bitmap = (Bitmap) intent.getParcelableExtra(getString(R.string.selected_bitmap));
                     mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), caption, imageCount, null,bitmap);
-                }*/
+                }
 
 
 
@@ -94,27 +94,6 @@ public class NextActivity extends AppCompatActivity {
 
         setImage();
     }
-
-    private void someMethod(){
-        /*
-            Step 1)
-            Create a data model for Photos
-
-            Step 2)
-            Add properties to the Photo Objects (caption, date, imageUrl, photo_id, tags, user_id)
-
-            Step 3)
-            Count the number of photos that the user already has.
-
-            Step 4)
-            a) Upload the photo to Firebase Storage
-            b) insert into 'photos' node
-            c) insert into 'user_photos' node
-
-         */
-
-    }
-
 
     /**
      * gets the image url from the incoming intent and displays the chosen image

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.uit.instagram.R;
+import com.uit.instagram.profile.AccountSettingsActivity;
 import com.uit.instagram.utils.Permissions;
 
 /**
@@ -77,7 +78,7 @@ public class PhotoFragment extends Fragment {
             Bitmap bitmap;
             bitmap = (Bitmap) data.getExtras().get("data");
 
-            /*if(isRootTask()){
+            if(isRootTask()){
                 try{
                     Log.d(TAG, "onActivityResult: received new bitmap from camera: " + bitmap);
                     Intent intent = new Intent(getActivity(), NextActivity.class);
@@ -97,10 +98,15 @@ public class PhotoFragment extends Fragment {
                }catch (NullPointerException e){
                    Log.d(TAG, "onActivityResult: NullPointerException: " + e.getMessage());
                }
-            }*/
+            }
 
         }
     }
+
+    private boolean isRootTask() {
+        return ((ShareActivity) getActivity()).getTask();
+    }
+
 }
 
 

@@ -416,6 +416,10 @@ public class FirebaseMethods {
         else if (photoType.equals(mContext.getString(R.string.profile_photo))) {
             Log.d(TAG, "uploadNewPhoto: uploading new PROFILE photo");
 
+            ((AccountSettingsActivity) mContext).setViewPager(
+                    ((AccountSettingsActivity) mContext).pagerAdapter
+                            .getFragmentNumber(mContext.getString(R.string.edit_profile_fragment))
+            );
 
             String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
             StorageReference storageReference = mStorageReference
@@ -442,10 +446,7 @@ public class FirebaseMethods {
 
                             //insert into 'user_account_settings' node
                             setProfilePhoto(firebaseUrl.toString());
-                             /* ((AccountSettingsActivity) mContext).setViewPager(
-                            ((AccountSettingsActivity) mContext).pagerAdapter
-                                    .getFragmentNumber(mContext.getString(R.string.edit_profile_fragment))
-                               );*/
+
                         }
                     });
 
