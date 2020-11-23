@@ -10,10 +10,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.uit.instagram.R;
 import com.uit.instagram.model.Photo;
+import com.uit.instagram.utils.ViewCommentsFragment;
 import com.uit.instagram.utils.ViewPostFragment;
 
 public class ProfileActivity extends AppCompatActivity implements
-        ProfileFragment.OnGridImageSelectedListener{
+        ProfileFragment.OnGridImageSelectedListener,
+        ViewPostFragment.OnCommentThreadSelectedListener{
 
     private static final String TAG = "ProfileActivity";
     private static final int ACTIVITY_NUM = 4;
@@ -41,6 +43,23 @@ public class ProfileActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onCommentThreadSelectedListener(Photo photo) {
+        Log.d(TAG, "onCommentThreadSelectedListener:  selected a comment thread");
+
+        ViewCommentsFragment fragment = new ViewCommentsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(getString(R.string.photo), photo);
+        fragment.setArguments(args);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(getString(R.string.view_comments_fragment));
+        transaction.commit();
+    }
+
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
@@ -59,5 +78,6 @@ public class ProfileActivity extends AppCompatActivity implements
         transaction.addToBackStack(getString(R.string.profile_fragment));
         transaction.commit();
     }
+
 
 }
