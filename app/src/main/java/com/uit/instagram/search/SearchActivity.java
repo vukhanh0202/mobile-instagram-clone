@@ -35,7 +35,7 @@ public class SearchActivity extends AppCompatActivity {
     private void setupBottomNavigationView(){
         Log.d(TAG, "setupBottomNavigationView: setting up bottom navigationView");
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavViewBar);
-        BottomNavigationViewUtil.enableNavigation(mContext, bottomNavigationView);
+        BottomNavigationViewUtil.enableNavigation(mContext,this, bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(ACTIVITY_NUM);

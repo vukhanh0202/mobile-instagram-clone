@@ -57,16 +57,6 @@ public class PhotoFragment extends Fragment {
 
         return view;
     }
-
-  /*  private boolean isRootTask(){
-        if(((ShareActivity)getActivity()).getTask() == 0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }*/
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
