@@ -117,7 +117,12 @@ public class ViewCommentsFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: navigating back");
                 getActivity().getSupportFragmentManager().popBackStack();
-
+                /*if (getCallingActivityFromBundle().equals(getString(R.string.home_activity))) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    ((HomeActivity) getActivity()).showLayout();
+                } else {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }*/
 
             }
         });

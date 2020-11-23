@@ -54,4 +54,11 @@ public class User {
                 ", username='" + username + '\'' +
                 '}';
     }
+
+    public User getUserContainText(String text){
+        if (this.getUsername().contains(text)){
+            return this;
+        }
+        return null;
+    }
 }
