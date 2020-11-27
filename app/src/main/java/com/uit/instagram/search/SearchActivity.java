@@ -1,6 +1,7 @@
 package com.uit.instagram.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -24,8 +25,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.uit.instagram.R;
 import com.uit.instagram.model.User;
+import com.uit.instagram.profile.ProfileActivity;
 import com.uit.instagram.utils.BottomNavigationViewUtil;
 import com.uit.instagram.utils.UserListAdapter;
 
@@ -138,7 +141,10 @@ public class SearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemClick: selected user: " + mUserList.get(position).toString());
 
-
+                Intent intent =  new Intent(SearchActivity.this, ProfileActivity.class);
+                intent.putExtra(getString(R.string.calling_activity), getString(R.string.search_activity));
+                intent.putExtra(getString(R.string.intent_user), mUserList.get(position));
+                startActivity(intent);
             }
         });
     }
@@ -148,7 +154,7 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void setupBottomNavigationView() {
         Log.d(TAG, "setupBottomNavigationView: setting up bottom navigationView");
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewEx bottomNavigationView = findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewUtil.enableNavigation(mContext, this, bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();

@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.uit.instagram.R;
 import com.uit.instagram.utils.BottomNavigationViewUtil;
 import com.uit.instagram.utils.FirebaseMethods;
@@ -63,6 +64,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: back to profile");
+                Intent intent = new Intent(mContext, ProfileActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
             }
         });
@@ -153,7 +157,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
      */
     private void setupBottomNavigationView() {
         Log.d(TAG, "setupBottomNavigationView: setting up bottom navigationView");
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewEx bottomNavigationView = findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewUtil.enableNavigation(mContext,this, bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();

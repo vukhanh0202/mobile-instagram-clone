@@ -12,12 +12,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.uit.instagram.R;
 import com.uit.instagram.login.LoginActivity;
+import android.content.Intent;
 
 /**
  * Sign out fragment
@@ -91,8 +93,8 @@ public class SignOutFragment extends Fragment {
 
                     Log.d(TAG, "onAuthStateChanged: navigating back to login screen.");
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
+                    //getActivity().finish();
                 }
                 // ...
             }

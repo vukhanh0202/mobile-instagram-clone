@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.uit.instagram.R;
 import com.uit.instagram.home.HomeActivity;
 import com.uit.instagram.utils.BottomNavigationViewUtil;
@@ -34,7 +35,7 @@ public class AlertActivity extends AppCompatActivity {
      */
     private void setupBottomNavigationView(){
         Log.d(TAG, "setupBottomNavigationView: setting up bottom navigationView");
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewEx bottomNavigationView = findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewUtil.enableNavigation(mContext,this, bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();

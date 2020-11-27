@@ -22,6 +22,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.uit.instagram.R;
+import com.uit.instagram.home.HomeActivity;
 import com.uit.instagram.profile.AccountSettingsActivity;
 import com.uit.instagram.utils.FilePaths;
 import com.uit.instagram.utils.FileSearch;
@@ -71,6 +72,8 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: closing the gallery fragment.");
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intent);
                 getActivity().finish();
             }
         });

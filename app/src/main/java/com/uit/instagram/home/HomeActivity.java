@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.uit.instagram.R;
 import com.uit.instagram.login.LoginActivity;
 import com.uit.instagram.utils.BottomNavigationViewUtil;
@@ -71,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
      */
     private void setupBottomNavigationView(){
         Log.d(TAG, "setupBottomNavigationView: setting up bottom navigationView");
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewEx bottomNavigationView = findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewUtil.enableNavigation(mContext,this, bottomNavigationView);
 
         Menu menu = bottomNavigationView.getMenu();

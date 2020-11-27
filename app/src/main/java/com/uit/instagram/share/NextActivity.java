@@ -22,6 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.uit.instagram.R;
+import com.uit.instagram.home.HomeActivity;
+import com.uit.instagram.profile.AccountSettingsActivity;
+import com.uit.instagram.profile.ProfileActivity;
 import com.uit.instagram.utils.FirebaseMethods;
 import com.uit.instagram.utils.UniversalImageLoader;
 
@@ -64,6 +67,9 @@ public class NextActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: closing the activity");
+                Intent intent = new Intent(NextActivity.this, ShareActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
             }
         });
@@ -86,9 +92,10 @@ public class NextActivity extends AppCompatActivity {
                     bitmap = (Bitmap) intent.getParcelableExtra(getString(R.string.selected_bitmap));
                     mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), caption, imageCount, null,bitmap);
                 }
-
-
-
+                Intent intent = new Intent(NextActivity.this, HomeActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
