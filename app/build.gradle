@@ -67,7 +67,7 @@ dependencies {
     //Circle ImageView
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     //elastic header
-    //compile 'com.github.eschao:android-ElasticListView:v1.0'
+    compile 'com.github.eschao:android-ElasticListView:v1.0'
 
 
     //material dialogs

@@ -128,6 +128,10 @@ public class ProfileActivity extends AppCompatActivity implements
 
     }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        init();
+    }
 
 }

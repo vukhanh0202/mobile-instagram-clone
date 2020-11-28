@@ -1,12 +1,15 @@
 package com.uit.instagram.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Detail user
  *
  * @author <VuKhanh> [18520903@gm.uit.edu.vn]
  * @since 11/15/2020
  */
-public class UserAccountSettings {
+public class UserAccountSettings implements Parcelable {
 
     private String description;
     private String display_name;
@@ -37,6 +40,31 @@ public class UserAccountSettings {
     public UserAccountSettings() {
 
     }
+
+    protected UserAccountSettings(Parcel in) {
+        description = in.readString();
+        display_name = in.readString();
+        followers = in.readLong();
+        following = in.readLong();
+        posts = in.readLong();
+        profile_photo = in.readString();
+        username = in.readString();
+        website = in.readString();
+        user_id = in.readString();
+        phone_number = in.readString();
+    }
+
+    public static final Creator<UserAccountSettings> CREATOR = new Creator<UserAccountSettings>() {
+        @Override
+        public UserAccountSettings createFromParcel(Parcel in) {
+            return new UserAccountSettings(in);
+        }
+
+        @Override
+        public UserAccountSettings[] newArray(int size) {
+            return new UserAccountSettings[size];
+        }
+    };
 
     public String getDescription() {
         return description;
@@ -132,5 +160,24 @@ public class UserAccountSettings {
                 ", user_id='" + user_id + '\'' +
                 ", phone_number='" + phone_number + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(description);
+        dest.writeString(display_name);
+        dest.writeLong(followers);
+        dest.writeLong(following);
+        dest.writeLong(posts);
+        dest.writeString(profile_photo);
+        dest.writeString(username);
+        dest.writeString(website);
+        dest.writeString(user_id);
+        dest.writeString(phone_number);
     }
 }

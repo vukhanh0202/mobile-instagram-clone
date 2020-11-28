@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.uit.instagram.R;
+import com.uit.instagram.home.HomeActivity;
 import com.uit.instagram.model.Comment;
 import com.uit.instagram.model.Photo;
 
@@ -116,13 +117,12 @@ public class ViewCommentsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: navigating back");
-                getActivity().getSupportFragmentManager().popBackStack();
-                /*if (getCallingActivityFromBundle().equals(getString(R.string.home_activity))) {
+                if (getCallingActivityFromBundle().equals(getString(R.string.home_activity))) {
                     getActivity().getSupportFragmentManager().popBackStack();
                     ((HomeActivity) getActivity()).showLayout();
                 } else {
                     getActivity().getSupportFragmentManager().popBackStack();
-                }*/
+                }
 
             }
         });
@@ -170,6 +170,20 @@ public class ViewCommentsFragment extends Fragment {
         return sdf.format(new Date());
     }
 
+    /**
+     * retrieve the photo from the incoming bundle from profileActivity interface
+     * @return
+     */
+    private String getCallingActivityFromBundle(){
+        Log.d(TAG, "getPhotoFromBundle: arguments: " + getArguments());
+
+        Bundle bundle = this.getArguments();
+        if(bundle != null) {
+            return bundle.getString(getString(R.string.home_activity));
+        }else{
+            return null;
+        }
+    }
 
     /**
      * retrieve the photo from the incoming bundle from profileActivity interface
