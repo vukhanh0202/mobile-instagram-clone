@@ -3,6 +3,7 @@ package com.uit.instagram.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -27,7 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uit.instagram.R;
 import com.uit.instagram.home.HomeActivity;
-import com.uit.instagram.model.Comment;
 import com.uit.instagram.model.Like;
 import com.uit.instagram.model.Photo;
 import com.uit.instagram.model.User;
@@ -36,7 +36,6 @@ import com.uit.instagram.profile.ProfileActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -77,7 +76,7 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
     static class ViewHolder {
         CircleImageView mprofileImage;
         String likesString;
-        TextView username, timeDetla, caption, likes, comments;
+        TextView username, timeDetla, caption, likes, comments, tags;
         SquareImageView image;
         ImageView heartRed, heartWhite, comment;
 
@@ -111,6 +110,8 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
             holder.caption = (TextView) convertView.findViewById(R.id.image_caption);
             holder.timeDetla = (TextView) convertView.findViewById(R.id.image_time_posted);
             holder.mprofileImage = (CircleImageView) convertView.findViewById(R.id.profile_photo);
+            holder.tags = (TextView) convertView.findViewById(R.id.image_tags);
+
 
             convertView.setTag(holder);
         } else {
@@ -129,7 +130,8 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
         getLikesString(holder);
 
         //set the caption
-        holder.caption.setText(getItem(position).getCaption());
+        //holder.caption.setText(getItem(position).getCaption());
+
 
         //set the comment
         Query commentQuery = mReference
@@ -143,16 +145,21 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     count = singleSnapshot.child(mContext.getString(R.string.field_comments)).getChildrenCount();
                 }
-                holder.comments.setText("View all " + count + " comments");
-                holder.comments.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d(TAG, "onClick: loading comment thread for " + getItem(position).getPhoto_id());
-                        ((HomeActivity)mContext).onCommentThreadSelected(getItem(position),
-                                mContext.getString(R.string.home_activity));
-                        ((HomeActivity)mContext).hideLayout();
-                    }
-                });
+                if (count == 0){
+                    holder.comments.setVisibility(View.GONE);
+                }else {
+                    holder.comments.setVisibility(View.VISIBLE);
+                    holder.comments.setText("View all " + count + " comments");
+                    holder.comments.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.d(TAG, "onClick: loading comment thread for " + getItem(position).getPhoto_id());
+                            ((HomeActivity)mContext).onCommentThreadSelected(getItem(position),
+                                    mContext.getString(R.string.home_activity));
+                            ((HomeActivity)mContext).hideLayout();
+                        }
+                    });
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -187,6 +194,16 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
                             + singleSnapshot.getValue(UserAccountSettings.class).getUsername());
 
                     holder.username.setText(singleSnapshot.getValue(UserAccountSettings.class).getUsername());
+                    if(getItem(position).getTags().equals("")){
+                        holder.tags.setVisibility(View.VISIBLE);
+                        holder.tags.setText(getItem(position).getTags());
+                    }else{
+                        holder.tags.setVisibility(View.GONE);
+                    }
+
+                    holder.caption.setText(Html.fromHtml("<b>"
+                            + singleSnapshot.getValue(UserAccountSettings.class).getUsername()
+                            + "</b> " + "  " + getItem(position).getCaption()));
                     holder.username.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -299,8 +316,6 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
         public boolean onDown(MotionEvent e) {
             Log.d(TAG, "onDoubleTap: double tap detected.");
 
-            Log.d(TAG, "onDoubleTap: clicked on photo: " + mHolder.photo.getPhoto_id());
-
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
             Query query = reference
                     .child(mContext.getString(R.string.dbname_photos))
@@ -315,8 +330,8 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
 
                         //case1: Then user already liked the photo
                         if (mHolder.likeByCurrentUser
-//                                && singleSnapshot.getValue(Like.class).getUser_id()
-//                                        .equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                && singleSnapshot.getValue(Like.class).getUser_id()
+                                       .equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         ) {
 
                             mReference.child(mContext.getString(R.string.dbname_photos))
@@ -326,8 +341,8 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
                                     .removeValue();
 ///
                             mReference.child(mContext.getString(R.string.dbname_user_photos))
-//                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .child(mHolder.photo.getUser_id())
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                                    .child(mHolder.photo.getUser_id())
                                     .child(mHolder.photo.getPhoto_id())
                                     .child(mContext.getString(R.string.field_likes))
                                     .child(keyID)
@@ -397,9 +412,7 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getUsername();
                 }
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -441,7 +454,7 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
 
                                 String[] splitUsers = holder.users.toString().split(",");
 
-                                if (holder.users.toString().contains(currentUsername + ",")) {//mitch, mitchell.tabian
+                                if (holder.users.toString().contains(currentUsername + ",")) {
                                     holder.likeByCurrentUser = true;
                                 } else {
                                     holder.likeByCurrentUser = false;
@@ -528,7 +541,12 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
                 }
             });
         }
-        holder.likes.setText(likesString);
+        if (likesString.equals("")){
+            holder.likes.setVisibility(View.GONE);
+        }else {
+            holder.likes.setVisibility(View.VISIBLE);
+            holder.likes.setText(likesString);
+        }
     }
 
     /**

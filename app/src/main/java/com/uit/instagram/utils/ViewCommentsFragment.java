@@ -1,6 +1,7 @@
 package com.uit.instagram.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.uit.instagram.R;
 import com.uit.instagram.home.HomeActivity;
 import com.uit.instagram.model.Comment;
 import com.uit.instagram.model.Photo;
+import com.uit.instagram.profile.AccountSettingsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -87,6 +89,25 @@ public class ViewCommentsFragment extends Fragment {
             Log.e(TAG, "onCreateView: NullPointerException: " + e.getMessage());
         }
 
+        mBackArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: navigating back");
+                try{
+                    if (getCallingActivityFromBundle()!= null && getCallingActivityFromBundle().equals(getString(R.string.home_activity))) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                        ((HomeActivity) getActivity()).showLayout();
+                        /*Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
+                        intent.putExtra(getString(R.string.calling_activity), getString(R.string.profile_activity));
+                        startActivity(intent);*/
+                    } else {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }
+                }catch (Exception e){
+                    Log.d(TAG, "onClick: error");
+                }
+            }
+        });
 
         return view;
     }
@@ -113,19 +134,7 @@ public class ViewCommentsFragment extends Fragment {
             }
         });
 
-        mBackArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: navigating back");
-                if (getCallingActivityFromBundle().equals(getString(R.string.home_activity))) {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    ((HomeActivity) getActivity()).showLayout();
-                } else {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                }
 
-            }
-        });
     }
 
     private void closeKeyboard() {

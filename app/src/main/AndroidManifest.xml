@@ -2,17 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.uit.instagram">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
 
     <application
         android:allowBackup="true"
@@ -21,33 +22,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance">
-
-        </activity>
-        <activity android:name=".alert.AlertActivity"
-            android:launchMode="singleInstance">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".profile.ProfileActivity"
+        <activity android:name=".message.ContentActivity"></activity>
+        <activity android:name=".message.MessageActivity" />
+        <activity
+            android:name=".home.HomeActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".alert.AlertActivity"
             android:launchMode="singleInstance">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".share.ShareActivity"
-            android:launchMode="singleInstance"/>
+        <activity
+            android:name=".profile.ProfileActivity"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".share.ShareActivity"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".search.SearchActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:launchMode="singleInstance">
-        </activity>
-        <activity android:name=".profile.AccountSettingsActivity"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".login.LoginActivity"
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".profile.AccountSettingsActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".login.LoginActivity"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,10 +61,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.RegisterActivity"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".share.NextActivity"
-            android:launchMode="singleInstance"/>
+        <activity
+            android:name=".login.RegisterActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".share.NextActivity"
+            android:launchMode="singleInstance" />
     </application>
 
 </manifest>

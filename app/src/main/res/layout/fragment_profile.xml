@@ -18,9 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/relLayout1"
         android:id="@+id/relLayout2">
-
         <include layout="@layout/layout_center_profile"/>
-
     </RelativeLayout>
 
     <ProgressBar

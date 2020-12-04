@@ -496,7 +496,7 @@ public class FirebaseMethods {
         String tags = StringManipulation.getTags(caption);
         String newPhotoKey = myRef.child(mContext.getString(R.string.dbname_photos)).push().getKey();
         Photo photo = new Photo();
-        photo.setCaption(caption);
+        photo.setCaption(StringManipulation.removeTag(caption));
         photo.setDate_created(getTimestamp());
         photo.setImage_path(url);
         photo.setTags(tags);

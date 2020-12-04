@@ -33,6 +33,14 @@ public class StringManipulation {
             String s = sb.toString().replace(" ", "").replace("#", ",#");
             return s.substring(1, s.length());
         }
-        return string;
+        return "";
+    }
+    public static String removeTag(String string){
+        StringBuilder result = new StringBuilder();
+        if(string.indexOf("#") > 0){
+            return string.split("#")[0].replace("#","");
+        }else{
+            return string;
+        }
     }
 }

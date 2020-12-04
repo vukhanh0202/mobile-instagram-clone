@@ -6,6 +6,7 @@
     <string name="view_post_fragment">View Post</string>
     <string name="sign_out_fragment">Sign Out</string>
     <string name="profile_fragment">Profile</string>
+    <string name="message_fragment">Profile</string>
     <string name="view_profile_fragment">ViewProfile</string>
     <string name="view_comments_fragment">View Comments</string>
 
@@ -20,7 +21,8 @@
     <string name="dbname_user_photos">user_photos</string>
     <string name="dbname_following">following</string>
     <string name="dbname_followers">followers</string>
-    <string name="dbname_stories">stories</string>
+    <string name="dbname_messages">messages</string>
+    <string name="dbname_messages_list">messages_list</string>
 
     <string name="field_username">username</string>
     <string name="field_email">email</string>
@@ -54,6 +56,7 @@
     <string name="selected_image">selected_image</string>
     <string name="selected_bitmap">selected_bitmap</string>
     <string name="return_to_fragment">return_to_fragment</string>
+    <string name="home_fragment">home_fragment</string>
     <string name="intent_user">intent_user</string>
     <string name="user_stories">user_stories</string>
     <string name="calling_editPhotoprofile">calling_editPhotoprofile</string>

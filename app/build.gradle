@@ -74,18 +74,8 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.4.0'
-    //annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
-    //implementation files('libs/aspectjrt-1.7.3 (1).jar')
 
-    //Universal image loader
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    //firebase authentication
-    /*compile 'com.google.firebase:firebase-auth:10.2.6'
-    //firebase database
-    compile 'com.google.firebase:firebase-database:10.2.6'
-    //firebase storage
-    compile 'com.google.firebase:firebase-storage:10.2.6'*/
-    //compile files('libs/aspectjrt-1.7.3 (1).jar')
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:26.1.0')

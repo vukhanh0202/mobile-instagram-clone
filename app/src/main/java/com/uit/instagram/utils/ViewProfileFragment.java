@@ -30,6 +30,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.uit.instagram.R;
+import com.uit.instagram.home.HomeActivity;
+import com.uit.instagram.message.ContentActivity;
+import com.uit.instagram.message.MessageActivity;
 import com.uit.instagram.model.Comment;
 import com.uit.instagram.model.Like;
 import com.uit.instagram.model.Photo;
@@ -72,7 +75,7 @@ public class ViewProfileFragment extends Fragment {
 
     //widgets
     private TextView mPosts, mFollowers, mFollowing, mDisplayName, mUsername, mWebsite, mDescription,
-            mFollow, mUnfollow ;
+            mFollow, mUnfollow, mDirect;
     private ProgressBar mProgressBar;
     private CircleImageView mProfilePhoto;
     private GridView gridView;
@@ -106,6 +109,7 @@ public class ViewProfileFragment extends Fragment {
         bottomNavigationView = (BottomNavigationViewEx) view.findViewById(R.id.bottomNavViewBar);
         mFollow = (TextView) view.findViewById(R.id.follow);
         mUnfollow = (TextView) view.findViewById(R.id.unfollow);
+        mDirect = (TextView) view.findViewById(R.id.direct);
         editProfile  = (TextView) view.findViewById(R.id.textEditProfile);
         mBackArrow = (ImageView) view.findViewById(R.id.backArrow);
         mContext = getActivity();
@@ -183,6 +187,16 @@ public class ViewProfileFragment extends Fragment {
                 Log.d(TAG, "onClick: navigating to " + mContext.getString(R.string.edit_profile_fragment));
                 Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
                 intent.putExtra(getString(R.string.calling_activity), getString(R.string.profile_activity));
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+
+        mDirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ContentActivity.class);
+                intent.putExtra("userid", mUser.getUser_id());
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
@@ -374,6 +388,7 @@ public class ViewProfileFragment extends Fragment {
         Log.d(TAG, "setFollowing: updating UI for following this user");
         mFollow.setVisibility(View.GONE);
         mUnfollow.setVisibility(View.VISIBLE);
+        mDirect.setVisibility(View.VISIBLE);
         editProfile.setVisibility(View.GONE);
     }
 
@@ -381,6 +396,7 @@ public class ViewProfileFragment extends Fragment {
         Log.d(TAG, "setFollowing: updating UI for unfollowing this user");
         mFollow.setVisibility(View.VISIBLE);
         mUnfollow.setVisibility(View.GONE);
+        mDirect.setVisibility(View.VISIBLE);
         editProfile.setVisibility(View.GONE);
     }
 
@@ -388,6 +404,7 @@ public class ViewProfileFragment extends Fragment {
         Log.d(TAG, "setFollowing: updating UI for showing this user their own profile");
         mFollow.setVisibility(View.GONE);
         mUnfollow.setVisibility(View.GONE);
+        mDirect.setVisibility(View.GONE);
         editProfile.setVisibility(View.VISIBLE);
     }
 

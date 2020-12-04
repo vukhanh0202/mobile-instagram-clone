@@ -1,33 +1,35 @@
 package com.uit.instagram.home;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabLayout;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.uit.instagram.R;
 import com.uit.instagram.login.LoginActivity;
+import com.uit.instagram.message.MessageActivity;
+import com.uit.instagram.message.MessageFragment;
 import com.uit.instagram.model.Photo;
+import com.uit.instagram.profile.ProfileFragment;
 import com.uit.instagram.utils.BottomNavigationViewUtil;
-import com.uit.instagram.utils.FirebaseMethods;
 import com.uit.instagram.utils.MainFeedListAdapter;
-import com.uit.instagram.utils.SectionsPagerAdapter;
 import com.uit.instagram.utils.UniversalImageLoader;
 import com.uit.instagram.utils.ViewCommentsFragment;
 
@@ -37,12 +39,12 @@ public class HomeActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadMoreItems() {
-        Log.d(TAG, "onLoadMoreItems: displaying more photos");
+        /*Log.d(TAG, "onLoadMoreItems: displaying more photos");
         HomeFragment fragment = (HomeFragment)getSupportFragmentManager()
                 .findFragmentByTag("android:switcher:" + R.id.viewpager_container + ":" + mViewPager.getCurrentItem());
         if(fragment != null){
             fragment.displayMorePhotos();
-        }
+        }*/
     }
 
     private static final String TAG = "HomeActivity";
@@ -56,28 +58,44 @@ public class HomeActivity extends AppCompatActivity implements
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     //widgets
-    private ViewPager mViewPager;
     private FrameLayout mFrameLayout;
     private RelativeLayout mRelativeLayout;
+
+    ImageView direct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: starting.");
-        mViewPager = (ViewPager) findViewById(R.id.viewpager_container);
         mFrameLayout = (FrameLayout) findViewById(R.id.container);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.relLayoutParent);
+
+        direct = findViewById(R.id.message);
 
         setupFirebaseAuth();
 
         initImageLoader();
         setupBottomNavigationView();
-        setupViewPager();
+
+        HomeFragment fragment = new HomeFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(getString(R.string.home_fragment));
+        transaction.commit();
+
+        direct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, MessageActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
 
     }
     public void onCommentThreadSelected(Photo photo, String callingActivity){
-        Log.d(TAG, "onCommentThreadSelected: selected a coemment thread");
+        Log.d(TAG, "onCommentThreadSelected: selected a comment thread");
 
         ViewCommentsFragment fragment  = new ViewCommentsFragment();
         Bundle args = new Bundle();
@@ -113,27 +131,9 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
-
-
     private void initImageLoader(){
         UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
         ImageLoader.getInstance().init(universalImageLoader.getConfig());
-    }
-
-    /**
-     * Responsible for adding the 3 tabs: Camera, Home, Messages
-     */
-    private void setupViewPager(){
-        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomeFragment()); //index 0
-        adapter.addFragment(new MessageFragment()); //index 1
-        mViewPager.setAdapter(adapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_camera);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_direct);
     }
 
     /**
@@ -197,7 +197,6 @@ public class HomeActivity extends AppCompatActivity implements
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
-        mViewPager.setCurrentItem(HOME_FRAGMENT);
         checkCurrentUser(mAuth.getCurrentUser());
     }
 
