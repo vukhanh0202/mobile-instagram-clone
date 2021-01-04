@@ -63,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity implements
     }
 
 
-    private static final int ACTIVITY_NUM = 4;
+    private static final int ACTIVITY_NUM = 3;
     private static final int NUM_GRID_COLUMNS = 3;
 
     private Context mContext = ProfileActivity.this;
