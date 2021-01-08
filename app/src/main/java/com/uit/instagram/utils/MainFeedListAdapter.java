@@ -137,7 +137,8 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
         Query commentQuery = mReference
                 .child(mContext.getString(R.string.dbname_photos))
                 .orderByChild(mContext.getString(R.string.field_photo_id))
-                .equalTo(getItem(position).getPhoto_id());;
+                .equalTo(getItem(position).getPhoto_id());
+        ;
         commentQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -145,22 +146,23 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     count = singleSnapshot.child(mContext.getString(R.string.field_comments)).getChildrenCount();
                 }
-                if (count == 0){
+                if (count == 0) {
                     holder.comments.setVisibility(View.GONE);
-                }else {
+                } else {
                     holder.comments.setVisibility(View.VISIBLE);
                     holder.comments.setText("View all " + count + " comments");
                     holder.comments.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Log.d(TAG, "onClick: loading comment thread for " + getItem(position).getPhoto_id());
-                            ((HomeActivity)mContext).onCommentThreadSelected(getItem(position),
+                            ((HomeActivity) mContext).onCommentThreadSelected(getItem(position),
                                     mContext.getString(R.string.home_activity));
-                            ((HomeActivity)mContext).hideLayout();
+                            ((HomeActivity) mContext).hideLayout();
                         }
                     });
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -189,62 +191,66 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    try {
+                        Log.d(TAG, "onDataChange: found user: "
+                                + singleSnapshot.getValue(UserAccountSettings.class).getUsername());
 
-                    Log.d(TAG, "onDataChange: found user: "
-                            + singleSnapshot.getValue(UserAccountSettings.class).getUsername());
+                        holder.username.setText(singleSnapshot.getValue(UserAccountSettings.class).getUsername());
+                        if (getItem(position).getTags().equals("")) {
+                            holder.tags.setVisibility(View.VISIBLE);
+                            holder.tags.setText(getItem(position).getTags());
+                        } else {
+                            holder.tags.setVisibility(View.GONE);
+                        }
 
-                    holder.username.setText(singleSnapshot.getValue(UserAccountSettings.class).getUsername());
-                    if(getItem(position).getTags().equals("")){
-                        holder.tags.setVisibility(View.VISIBLE);
-                        holder.tags.setText(getItem(position).getTags());
-                    }else{
-                        holder.tags.setVisibility(View.GONE);
+                        holder.caption.setText(Html.fromHtml("<b>"
+                                + singleSnapshot.getValue(UserAccountSettings.class).getUsername()
+                                + "</b> " + "  " + getItem(position).getCaption()));
+                        holder.username.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.d(TAG, "onClick: navigating to profile of: " +
+                                        holder.user.getUsername());
+
+                                Intent intent = new Intent(mContext, ProfileActivity.class);
+                                intent.putExtra(mContext.getString(R.string.calling_activity),
+                                        mContext.getString(R.string.home_activity));
+                                intent.putExtra(mContext.getString(R.string.intent_user), holder.user);
+                                mContext.startActivity(intent);
+                            }
+                        });
+
+                        imageLoader.displayImage(singleSnapshot.getValue(UserAccountSettings.class).getProfile_photo(),
+                                holder.mprofileImage);
+                        holder.mprofileImage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.d(TAG, "onClick: navigating to profile of: " +
+                                        holder.user.getUsername());
+
+                                Intent intent = new Intent(mContext, ProfileActivity.class);
+                                intent.putExtra(mContext.getString(R.string.calling_activity),
+                                        mContext.getString(R.string.home_activity));
+                                intent.putExtra(mContext.getString(R.string.intent_user), holder.user);
+                                mContext.startActivity(intent);
+                            }
+                        });
+
+
+                        holder.settings = singleSnapshot.getValue(UserAccountSettings.class);
+                        holder.comment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ((HomeActivity) mContext).onCommentThreadSelected(getItem(position),
+                                        mContext.getString(R.string.home_activity));
+
+                                ((HomeActivity) mContext).hideLayout();
+                            }
+                        });
+                    } catch (Exception e) {
+                        Log.d(TAG, "onDataChange: " + e);
                     }
 
-                    holder.caption.setText(Html.fromHtml("<b>"
-                            + singleSnapshot.getValue(UserAccountSettings.class).getUsername()
-                            + "</b> " + "  " + getItem(position).getCaption()));
-                    holder.username.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.d(TAG, "onClick: navigating to profile of: " +
-                                    holder.user.getUsername());
-
-                            Intent intent = new Intent(mContext, ProfileActivity.class);
-                            intent.putExtra(mContext.getString(R.string.calling_activity),
-                                    mContext.getString(R.string.home_activity));
-                            intent.putExtra(mContext.getString(R.string.intent_user), holder.user);
-                            mContext.startActivity(intent);
-                        }
-                    });
-
-                    imageLoader.displayImage(singleSnapshot.getValue(UserAccountSettings.class).getProfile_photo(),
-                            holder.mprofileImage);
-                    holder.mprofileImage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.d(TAG, "onClick: navigating to profile of: " +
-                                    holder.user.getUsername());
-
-                            Intent intent = new Intent(mContext, ProfileActivity.class);
-                            intent.putExtra(mContext.getString(R.string.calling_activity),
-                                    mContext.getString(R.string.home_activity));
-                            intent.putExtra(mContext.getString(R.string.intent_user), holder.user);
-                            mContext.startActivity(intent);
-                        }
-                    });
-
-
-                    holder.settings = singleSnapshot.getValue(UserAccountSettings.class);
-                    holder.comment.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ((HomeActivity) mContext).onCommentThreadSelected(getItem(position),
-                                    mContext.getString(R.string.home_activity));
-
-                            ((HomeActivity) mContext).hideLayout();
-                        }
-                    });
                 }
 
             }
@@ -331,7 +337,7 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
                         //case1: Then user already liked the photo
                         if (mHolder.likeByCurrentUser
                                 && singleSnapshot.getValue(Like.class).getUser_id()
-                                       .equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         ) {
 
                             mReference.child(mContext.getString(R.string.dbname_photos))
@@ -413,6 +419,7 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
                     currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getUsername();
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -541,9 +548,9 @@ public class MainFeedListAdapter extends ArrayAdapter<Photo> {
                 }
             });
         }
-        if (likesString.equals("")){
+        if (likesString.equals("")) {
             holder.likes.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.likes.setVisibility(View.VISIBLE);
             holder.likes.setText(likesString);
         }

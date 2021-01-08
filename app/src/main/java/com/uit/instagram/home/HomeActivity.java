@@ -39,12 +39,11 @@ public class HomeActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadMoreItems() {
-        /*Log.d(TAG, "onLoadMoreItems: displaying more photos");
-        HomeFragment fragment = (HomeFragment)getSupportFragmentManager()
-                .findFragmentByTag("android:switcher:" + R.id.viewpager_container + ":" + mViewPager.getCurrentItem());
+        Log.d(TAG, "onLoadMoreItems: displaying more photos");
+        HomeFragment fragment = (HomeFragment)getSupportFragmentManager().getFragments().get(0);
         if(fragment != null){
             fragment.displayMorePhotos();
-        }*/
+        }
     }
 
     private static final String TAG = "HomeActivity";
