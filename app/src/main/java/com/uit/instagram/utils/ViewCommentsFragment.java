@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,9 +29,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.uit.instagram.R;
 import com.uit.instagram.home.HomeActivity;
+import com.uit.instagram.home.HomeFragment;
+import com.uit.instagram.message.MessageActivity;
 import com.uit.instagram.model.Comment;
 import com.uit.instagram.model.Photo;
 import com.uit.instagram.profile.AccountSettingsActivity;
+import com.uit.instagram.search.SearchActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -97,9 +101,6 @@ public class ViewCommentsFragment extends Fragment {
                     if (getCallingActivityFromBundle()!= null && getCallingActivityFromBundle().equals(getString(R.string.home_activity))) {
                         getActivity().getSupportFragmentManager().popBackStack();
                         ((HomeActivity) getActivity()).showLayout();
-                        /*Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
-                        intent.putExtra(getString(R.string.calling_activity), getString(R.string.profile_activity));
-                        startActivity(intent);*/
                     } else {
                         getActivity().getSupportFragmentManager().popBackStack();
                     }

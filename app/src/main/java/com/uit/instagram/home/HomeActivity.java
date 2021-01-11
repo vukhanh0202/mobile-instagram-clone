@@ -118,7 +118,7 @@ public class HomeActivity extends AppCompatActivity implements
     public void showLayout(){
         Log.d(TAG, "hideLayout: showing layout");
         mRelativeLayout.setVisibility(View.VISIBLE);
-        mFrameLayout.setVisibility(View.GONE);
+        //mFrameLayout.setVisibility(View.GONE);
     }
 
     @Override
